@@ -302,8 +302,10 @@ cd EngageMetrics
 
 ## 👨‍💻 Contributors
 
-* Your Name
-* Team Members
+* Sumit Roy Chowdhury
+* Kumar Roushan
+* Shivraj Bissa
+* Mayank Shekhar Chaturvedi
 
 ---
 
