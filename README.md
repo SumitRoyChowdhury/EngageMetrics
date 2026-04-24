@@ -1,216 +1,96 @@
-# 📊 EngageMetrics — AI Student Engagement & Attention Tracker
+# 📊 EngageMatric — AI Student Engagement & Attention Tracker
 
-> **An AI-assisted system to track, analyze, and improve student engagement in online classes using structured data and intelligent insights.**
+> **An AI-assisted full-stack application to track, analyze, and improve student engagement in online classes using Google Sheets as a database and intelligent AI insights.**
 
 ---
 
 ## 🚀 Overview
 
-EngageMetrics is a data-driven platform designed to help educators understand student engagement in online learning environments.
+EngageMatric is a data-driven platform designed to help educators understand student engagement in learning environments.
 
-It collects post-class data (participation, quiz performance, and feedback), processes it using rule-based logic, and enhances it with AI-powered sentiment analysis using ChatGPT. The system identifies at-risk students, visualizes engagement trends, and generates actionable teaching suggestions.
-
----
-
-## 🎯 Problem Statement
-
-In online classes, teachers lack a structured way to:
-
-* Measure student engagement objectively
-* Identify disengaged or struggling students
-* Understand feedback at scale
-* Improve teaching strategies based on data
-
-**EngageMetrics solves this by combining structured analytics with AI insights.**
+It collects post-class data via Google Forms, processes it through a custom Node.js backend, and enhances it with AI-powered sentiment analysis using Google Gemini. The system identifies at-risk students, visualizes engagement trends through a modern React dashboard, and maintains a structured historical record in Google Sheets.
 
 ---
 
 ## 🎯 Objectives
 
-* Collect and store engagement data systematically
-* Calculate engagement scores using weighted criteria
-* Classify students into engagement levels
-* Detect at-risk students using rule-based logic
-* Analyze feedback sentiment using AI
-* Generate actionable insights for educators
-* Visualize engagement trends via dashboards
-* Produce weekly summary reports
+* Collect and store engagement data systematically via automated Google Forms.
+* Compute engagement scores using weighted criteria (Quiz Scores + Sentiment + Participation).
+* Detect at-risk students automatically using predefined engagement thresholds.
+* Analyze student feedback sentiment using Google Gemini AI.
+* Visualize engagement trends and individual student performance via a dynamic dashboard.
 
 ---
 
 ## ✨ Key Features
 
-### 📥 1. Engagement Data Collection
-
-Data is collected using Google Forms:
-
-* Participation rating
-* Quiz score (%)
-* Chat activity summary
-* Written feedback
-
----
+### 📥 1. Automated Data Sync
+Teachers can generate Google Forms directly from the dashboard. Once students submit the form, the Express.js backend pulls the responses, analyzes them, and automatically updates the Master Google Sheet.
 
 ### 🧮 2. Engagement Scoring System
-
-**Weight Distribution:**
-
-* Participation → 40%
-* Quiz Performance → 40%
-* Sentiment Score → 20%
-
 **Formula:**
+`Engagement Score = (0.4 × Participation) + (0.4 × Quiz Score) + (0.2 × Sentiment Score)`
 
-```
-Engagement Score = 
-(0.4 × Participation) + 
-(0.4 × Quiz Score) + 
-(0.2 × Sentiment Score)
-```
+### 🤖 3. AI Sentiment Analysis
+Student feedback is automatically processed by **Google Gemini 2.0 Flash** (with Groq as a fallback) to determine the emotional sentiment:
+* Positive (100 pts)
+* Neutral (50 pts)
+* Negative (0 pts)
 
----
+### 🚨 4. At-Risk Student Detection
+Students are automatically flagged as **At Risk** if their Engagement Score drops below 40%.
 
-### 🏷️ 3. Student Categorization
-
-| Score Range | Category          |
-| ----------- | ----------------- |
-| ≥ 75        | High Engagement   |
-| 50–74       | Medium Engagement |
-| < 50        | Low Engagement    |
-
----
-
-### 🤖 4. Feedback Sentiment Analysis
-
-Student feedback is analyzed using ChatGPT and classified as:
-
-* Positive
-* Neutral
-* Negative
-
-**Sentiment Mapping:**
-
-| Sentiment | Score |
-| --------- | ----- |
-| Positive  | 100   |
-| Neutral   | 50    |
-| Negative  | 0     |
-
----
-
-### 🚨 5. At-Risk Student Detection
-
-Students are flagged as **At Risk** if:
-
-* Engagement Score < 45
-  **OR**
-* Engagement declines for 2 consecutive weeks
-
----
-
-### 📊 6. Dashboard & Analytics
-
-Built using Google Sheets:
-
-* Class engagement trends
-* Individual student tracking
-* Sentiment distribution charts
-* Weekly comparisons
-
----
-
-### 💡 7. AI-Generated Suggestions
-
-ChatGPT generates:
-
-* Teaching improvement strategies
-* Engagement enhancement ideas
-* Performance-based recommendations
-
----
-
-### 🧾 8. Weekly Reports
-
-Reports are created using Canva, including:
-
-* Class engagement summary
-* Student distribution
-* At-risk students
-* AI-generated suggestions
+### 📊 5. Comprehensive React Dashboard
+A sleek, responsive dashboard built with React that provides:
+* Class engagement averages & trends.
+* Individual student profiles and historical data.
+* Risk detection alerts and participation leaderboards.
 
 ---
 
 ## 🏗️ System Architecture
 
+```text
+Student (Google Form) 
+      ↓
+Node.js Backend (Express)  ←→  Google Gemini API (Sentiment Analysis)
+      ↓
+Google Sheets (Master Database via OAuth2)
+      ↓
+Node.js Backend (Data Processing & Local Caching)
+      ↓
+React Frontend (Vite Dashboard)
 ```
-Google Forms
-     ↓
-Google Sheets (Raw Data)
-     ↓
-n8n Workflow Automation
-     ↓
-ChatGPT (Sentiment Analysis)
-     ↓
-Score Calculation & Logic
-     ↓
-Google Sheets (Processed Data)
-     ↓
-Dashboard Visualization
-     ↓
-AI Suggestions
-     ↓
-Canva Report
-```
-
----
-
-## ⚙️ Workflow Explanation
-
-1. Students submit engagement data via Google Forms
-2. Data is stored in Google Sheets
-3. n8n triggers automation on new entries
-4. ChatGPT analyzes feedback sentiment
-5. Engagement score is calculated
-6. Students are categorized and evaluated
-7. At-risk students are flagged
-8. Results are updated in Sheets
-9. Dashboard visualizes insights
-10. AI generates suggestions
-11. Weekly report is created in Canva
 
 ---
 
 ## 🧰 Tech Stack
 
-* **Frontend:** HTML, CSS, JavaScript
-* **Automation:** n8n
-* **Database:** Google Sheets
-* **Data Collection:** Google Forms
-* **AI Engine:** OpenAI (ChatGPT API)
-* **Reporting:** Canva
-* **Deployment:** Vercel / Netlify
-* **Version Control:** GitHub
+* **Frontend:** React.js, Vite, Vanilla CSS, Lucide-React
+* **Backend:** Node.js, Express.js
+* **Database:** Google Sheets API (OAuth2)
+* **AI Engine:** Google Gemini API (Groq as fallback)
+* **Deployment:** Vercel (Frontend), Render (Backend)
 
 ---
 
 ## 📁 Project Structure
 
-```
-EngageMetrics/
+```text
+EngageMatric/
 │
-├── frontend/               # Website UI (deployed)
-│   ├── index.html
-│   ├── style.css
-│   └── script.js
+├── frontend/               # React Dashboard (Vite)
+│   ├── src/                # React Components, Pages, and API utilities
+│   ├── package.json
+│   └── .env                # Contains VITE_API_URL
 │
-├── workflows/
-│   └── n8n-workflow.json   # Exported workflow
+├── backend/                # Node.js Express Server
+│   ├── routes/             # API Endpoints
+│   ├── utils/              # Google Auth, Sheets DB, Gemini integrations
+│   ├── package.json
+│   └── .env                # Contains API Keys and OAuth Credentials
 │
-├── screenshots/
-│   ├── dashboard.png
-│   ├── report.png
-│
-├── README.md
+└── README.md
 ```
 
 ---
@@ -218,85 +98,49 @@ EngageMetrics/
 ## 🛠️ Setup Instructions
 
 ### 1. Clone Repository
-
-```
-git clone https://github.com/your-username/EngageMetrics.git
+```bash
+git clone https://github.com/SumitRoyChowdhury/EngageMetrics.git
 cd EngageMetrics
 ```
 
----
+### 2. Backend Setup
+1. Open the `backend` directory: `cd backend`
+2. Install dependencies: `npm install`
+3. Create a `.env` file with the following variables:
+   ```env
+   PORT=5001
+   FRONTEND_URL=http://localhost:5173
+   GOOGLE_CLIENT_ID=your_client_id
+   GOOGLE_CLIENT_SECRET=your_client_secret
+   GOOGLE_REDIRECT_URL=http://localhost:5001/api/auth/google/callback
+   MASTER_SPREADSHEET_ID=your_google_sheet_id
+   GEMINI_API_KEY=your_gemini_key
+   GROQ_API_KEY=your_groq_key
+   ```
+4. Start the backend server: `npm start` (or `npm run dev` for nodemon).
 
-### 2. Setup Google Sheets
+### 3. Frontend Setup
+1. Open the `frontend` directory: `cd ../frontend`
+2. Install dependencies: `npm install`
+3. Create a `.env` file:
+   ```env
+   VITE_API_URL=http://localhost:5001/api
+   ```
+4. Start the frontend development server: `npm run dev`
 
-* Create a response sheet linked to Google Forms
-* Add columns for:
-
-  * Participation
-  * Quiz Score
-  * Feedback
-  * Sentiment
-  * Score
-  * Category
-  * At-Risk
-
----
-
-### 3. Setup n8n Workflow
-
-* Import `n8n-workflow.json`
-* Configure:
-
-  * Google Sheets credentials
-  * OpenAI API key
-
----
-
-### 4. Run Frontend
-
-* Open `index.html`
-  OR
-* Deploy via Vercel / Netlify
+### 4. Authentication Setup
+1. Open the frontend at `http://localhost:5173`.
+2. Click **Connect Google** to authenticate with your Google Workspace.
+3. Once authenticated, the backend will bootstrap the Google Sheet with the necessary tabs and start syncing data!
 
 ---
 
 ## 🌐 Deployment
 
-### Frontend Deployment
+* **Frontend:** Deployed via Vercel (`engage-metrics-plum.vercel.app`)
+* **Backend:** Deployed via Render (`engagemetrics-rmu4.onrender.com`)
 
-* Deploy using Vercel or Netlify
-
-### n8n Deployment
-
-* Use:
-
-  * n8n Cloud
-  * Railway
-  * Render
-
----
-
-## ⚠️ Limitations
-
-* No real-time engagement tracking
-* Dependent on user input accuracy
-* Sentiment classification depends on prompt quality
-* No predictive machine learning (rule-based system)
-
----
-
-## 🔮 Future Enhancements
-
-* Real-time engagement monitoring
-* Machine learning prediction models
-* LMS integration (Google Classroom, Moodle)
-* Automated report generation
-* Advanced analytics dashboard
-
----
-
-## 🧠 Key Insight
-
-> EngageMetrics demonstrates how AI + no-code tools can be combined to create a powerful, scalable student engagement analysis system without complex machine learning.
+*Note: When deploying the backend to an ephemeral filesystem like Render, ensure `GOOGLE_REFRESH_TOKEN` is set in the environment variables to bypass the 7-day token expiration limit of Google Cloud testing apps.*
 
 ---
 
@@ -306,14 +150,3 @@ cd EngageMetrics
 * Kumar Roushan
 * Shivraj Bissa
 * Mayank Shekhar Chaturvedi
-
----
-
-## ⭐ Acknowledgements
-
-* OpenAI (ChatGPT API)
-* Google Forms & Sheets
-* n8n Workflow Automation
-* Canva
-
----
