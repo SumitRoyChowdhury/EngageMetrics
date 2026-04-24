@@ -39,7 +39,8 @@ const GoogleConnect = () => {
       // Stop polling after 2 minutes
       setTimeout(() => clearInterval(interval), 120000);
     } catch (err) {
-      alert('Failed to get auth URL');
+      console.error('Auth URL Error:', err.response || err);
+      alert('Failed to get auth URL: ' + (err.response?.data?.message || err.message));
     }
   };
 
