@@ -52,6 +52,10 @@ const getClient = () => {
   if (fs.existsSync(TOKEN_PATH)) {
     const tokens = JSON.parse(fs.readFileSync(TOKEN_PATH));
     oauth2Client.setCredentials(tokens);
+  } else if (process.env.GOOGLE_REFRESH_TOKEN) {
+    oauth2Client.setCredentials({
+      refresh_token: process.env.GOOGLE_REFRESH_TOKEN
+    });
   }
   return oauth2Client;
 };

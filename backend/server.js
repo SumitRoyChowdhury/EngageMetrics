@@ -55,7 +55,7 @@ app.get('/api/auth/google/callback', async (req, res) => {
 
 app.get('/api/auth/google/status', (req, res) => {
   const client = googleAuth.getClient();
-  res.json({ connected: !!client.credentials.access_token });
+  res.json({ connected: !!(client.credentials.access_token || client.credentials.refresh_token) });
 });
 
 // ─────────────────────────────────────────────────────────
