@@ -45,6 +45,15 @@ const saveToken = async (code) => {
   const { tokens } = await oauth2Client.getToken(code);
   fs.writeFileSync(TOKEN_PATH, JSON.stringify(tokens));
   oauth2Client.setCredentials(tokens);
+  
+  if (tokens.refresh_token) {
+    console.log('\n\n========================================================');
+    console.log('!!! NEW REFRESH TOKEN GENERATED !!!');
+    console.log('Update your GOOGLE_REFRESH_TOKEN environment variable with:');
+    console.log(tokens.refresh_token);
+    console.log('========================================================\n\n');
+  }
+  
   return tokens;
 };
 
