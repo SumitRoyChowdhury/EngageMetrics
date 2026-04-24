@@ -1,0 +1,7 @@
+node_modules
+.env
+tokens.json
+data/cache.json
+data/sentiment_cache.json
+*.log
+.DS_Store
