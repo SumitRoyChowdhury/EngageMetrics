@@ -211,7 +211,7 @@ const deleteRecord = async (tab, keyField, keyValue) => {
  */
 const pullFromSheets = async () => {
   const auth = googleAuth.getClient();
-  if (!auth.credentials.access_token) {
+  if (!(auth.credentials.access_token || auth.credentials.refresh_token)) {
     console.log('[Sheets] Not authenticated, skipping pull.');
     return false;
   }
@@ -264,7 +264,7 @@ const pullFromSheets = async () => {
  */
 const pushToSheets = async (forceTabs = null) => {
   const auth = googleAuth.getClient();
-  if (!auth.credentials.access_token) {
+  if (!(auth.credentials.access_token || auth.credentials.refresh_token)) {
     console.log('[Sheets] Not authenticated, skipping push.');
     return false;
   }
@@ -345,7 +345,7 @@ const fullSync = async () => {
 // ─────────────────────────────────────────────────────────
 const bootstrap = async () => {
   const auth = googleAuth.getClient();
-  if (!auth.credentials.access_token) return;
+  if (!(auth.credentials.access_token || auth.credentials.refresh_token)) return;
 
   const sheets = google.sheets({ version: 'v4', auth });
   const spreadsheetId = process.env.MASTER_SPREADSHEET_ID;

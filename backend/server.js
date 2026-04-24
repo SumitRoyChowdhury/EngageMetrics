@@ -471,7 +471,7 @@ app.get('/api/students/:id', async (req, res) => {
 // ─────────────────────────────────────────────────────────
 app.post('/api/quizzes', async (req, res) => {
   const auth = googleAuth.getClient();
-  if (!auth.credentials.access_token) {
+  if (!(auth.credentials.access_token || auth.credentials.refresh_token)) {
     return res.status(401).json({ message: 'Google account not connected' });
   }
 
@@ -606,7 +606,7 @@ app.post('/api/quizzes', async (req, res) => {
 // ─────────────────────────────────────────────────────────
 const syncQuizById = async (quizId) => {
   const auth = googleAuth.getClient();
-  if (!auth.credentials.access_token) return 0;
+  if (!(auth.credentials.access_token || auth.credentials.refresh_token)) return 0;
 
   const forms = google.forms({ version: 'v1', auth });
   const quizzes = await sheetsDB.getRows(sheetsDB.TABS.QUIZZES);
